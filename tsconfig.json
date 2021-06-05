@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "module": "es6",
     "target": "es5",
-    "module": "commonjs",
-    "strict": true,
-    "esModuleInterop": true,
-    "outDir": "./dist",
-    "watch": true
-  },
-  "compileOnSave": true,
+    "jsx": "react",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "strict": false,
+    "allowSyntheticDefaultImports": true
+  }
 }
