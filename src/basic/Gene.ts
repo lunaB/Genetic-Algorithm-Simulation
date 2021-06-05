@@ -1,13 +1,13 @@
-export class Gene {
+export abstract class Gene {
   constructor(
     public chromosome_size: number,
-    public chromosome_base: Array<number>,
+    public chromosome_base: Array<number | string>,
     public chromosome: Array<any> = []) {
 
     /* init */
   }
 
-  initSystem() {}
+  abstract initSystem(): void
 
   initRandom() {
     for(let i=0;i<this.chromosome_size;i++) {

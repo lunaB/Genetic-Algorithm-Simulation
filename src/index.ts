@@ -2,8 +2,7 @@ import { Component } from './basic/Component'
 import { Simulator } from './basic/Simulator'
 
 
-document.addEventListener("DOMContentLoaded", () => {
-    
+document.addEventListener("DOMContentLoaded", async() => {
   const canvas: any = document.getElementById("canvas")
   const ctx: CanvasRenderingContext2D = canvas.getContext("2d")
   const FPS = 30
@@ -12,12 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
     height: 600
   }
 
-  /* component draw */
-  let test = new Component(ctx, 100, 20, 20, 20, 0)
-  // test.draw()
-  
-  /* component simulate */
+  /* init simulator */
   const simulator = new Simulator(ctx, option.width, option.height)
-  simulator.add('test unit', test)
-
+  for(let i=0;i<10;i++) {
+    let test = new Component(ctx, 100, 20, 20, 20, 0)
+    simulator.add('component', test)
+  }
+  
+  /* test */
+  // await simulator.test(500, FPS)
 })
