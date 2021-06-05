@@ -181,17 +181,6 @@ class Food extends Unit {
     step() {}
 }
 
-class Util {
-    static unitDistence(unitA, unitB) {
-        return Math.sqrt(Math.pow(unitA.x - unitB.x, 2) + Math.pow(unitA.y - unitB.y, 2))
-    }
-}
-
-class GA {
-    static rouletteWheelSelection() {
-        
-    }
-}
 
 class Simulator {
     constructor(ctx, {width, height}) {
@@ -231,7 +220,8 @@ class Simulator {
                 step += 1
                 if(step > step_cnt) {
                     clearInterval(interval)
-                    resolve()
+                    console.log(1)
+                    resolve(1)
                 }
             }, 1000 / FPS)
         })
@@ -253,7 +243,7 @@ document.addEventListener("DOMContentLoaded", async() => {
     
     var canvas = document.getElementById("canvas")
     var ctx = canvas.getContext("2d")
-    var FPS = 60
+    var FPS = 40
     var width = 800
     var height = 600
 
@@ -282,9 +272,9 @@ document.addEventListener("DOMContentLoaded", async() => {
     }
 
     // generation
-    for(var g=0;g<10;g++) {
-        await simulator.test(500, FPS)
-        // simulator.simulate(1000)
+    for(var g=0;g<50;g++) {
+        // await simulator.test(500, FPS)
+        simulator.simulate(1000)
 
         // ( * 일단 복잡도 생각안하고 만들기 * )
         // 룰렛휠 
@@ -295,8 +285,7 @@ document.addEventListener("DOMContentLoaded", async() => {
         var S = evaluation.reduce((sum, v) => sum + v.evaluation(), 0)
         
         console.log('=== generation ['+(g+1)+'] score ['+S+'] ===')
-        console.log('best gene : '+evaluation[0].gene.chromosome)
-
+        
         var select = () => {
             var r = Math.random() * S
             var s = 0
@@ -319,33 +308,33 @@ document.addEventListener("DOMContentLoaded", async() => {
             newSimulator.add('Food', new Food(ctx,/*#*/ f_x, f_y, f_width, f_height))
         }
 
+        // 새로운거
+        for(var i=0;i<20;i++) {
+            var b_width = 10
+            var b_height = 10
+            var b_x = Math.random() * (width - b_width)
+            var b_y = Math.random() * (height - b_width)
+            var bacteria = new Bacteria(ctx, newSimulator, 1,/*#*/ b_x, b_y, b_width, b_height)
+            bacteria.gene.generateChromosome()
+            newSimulator.add('Bacteria', bacteria)
+        }
+
         // 기존거
-        for(var i=0;i<30;i++) {
+        for(var i=0;i<10;i++) {
             var b_width = 10
             var b_height = 10
             var b_x = Math.random() * (width - b_width)
             var b_y = Math.random() * (height - b_width)
             
-            var bacteriaA = select()
-            var bacteriaB = select()
-
-            var a = bacteriaA.gene.chromosome;
-            var b = bacteriaB.gene.chromosome;
-
-            var r = Math.floor(Math.random() * a.length)
-            var newChromosome = a.slice(0, r).concat(b.slice(r, r.length))
+            var bacteria = select()
             var newBacteria = new Bacteria(ctx, newSimulator, 1,/*#*/ b_x, b_y, b_width, b_height)
-            newBacteria.gene.setChromosome(newChromosome)
+            newBacteria.gene = bacteria.gene
             newSimulator.add('Bacteria', newBacteria)
         }
 
         simulator = newSimulator
     }
 
-    await simulator.test(1000, FPS)
+    await simulator.test(500, FPS)
     console.log('Done')
 })
-
-
-
-

@@ -1,0 +1,15 @@
+{
+  "name": "genetic-algorithm-simulation",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/lunaB/Genetic-Algorithm-Simulation.git",
+  "author": "lunaB <luna20617@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.3"
+  },
+  "scripts": {
+    "build": "tsc"
+  }
+}
