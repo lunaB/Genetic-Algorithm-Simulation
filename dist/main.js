@@ -1,68 +1,46 @@
+/*
+ * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
-/******/ 	var __webpack_modules__ = ([
-/* 0 */,
-/* 1 */
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/basic/Component.ts":
+/*!********************************!*\
+  !*** ./src/basic/Component.ts ***!
+  \********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Component": () => (/* binding */ Component)
-/* harmony export */ });
-var Component = /** @class */ (function () {
-    function Component(ctx, x, y, width, height, direction, color, shape) {
-        if (color === void 0) { color = '#00FFFF'; }
-        if (shape === void 0) { shape = 'square'; }
-        this.ctx = ctx;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.direction = direction;
-        this.color = color;
-        this.shape = shape;
-        this.UID = Component.generateUID;
-        Component.generateUID += 1;
-        this.draw();
-    }
-    Component.prototype.draw = function () {
-        this.ctx.save();
-        this.ctx.translate(this.x, this.y);
-        this.ctx.fillStyle = this.color;
-        this.ctx.fillRect(0, 0, this.width, this.height);
-        var center = {
-            x: this.x + this.width * 0.5,
-            y: this.y + this.height * 0.5
-        };
-        this.ctx.translate(center.x, center.y);
-        this.ctx.rotate((Math.PI / 180) * this.direction);
-        this.ctx.translate(-center.x, -center.y);
-        this.ctx.restore();
-    };
-    Component.prototype.move = function (direction, distence) {
-        this.x += distence * Math.cos(direction);
-        this.y += distence * Math.sin(direction);
-    };
-    Component.prototype.moveTo = function (x, y, distence) {
-        var dx = x - this.x;
-        var dy = y - this.y;
-        var radian = Math.atan2(y, x);
-    };
-    Component.prototype.evaluation = function () { };
-    Component.prototype.step = function () { };
-    Component.prototype.clear = function () { };
-    Component.prototype.update = function () {
-        this.step();
-        this.draw();
-    };
-    Component.generateUID = 0;
-    return Component;
-}());
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Component\": () => (/* binding */ Component)\n/* harmony export */ });\nvar Component = /** @class */ (function () {\n    function Component(ctx, x, y, width, height, direction, color, shape) {\n        if (color === void 0) { color = '#00FFFF'; }\n        if (shape === void 0) { shape = 'square'; }\n        this.ctx = ctx;\n        this.x = x;\n        this.y = y;\n        this.width = width;\n        this.height = height;\n        this.direction = direction;\n        this.color = color;\n        this.shape = shape;\n        this.UID = Component.generateUID;\n        Component.generateUID += 1;\n        this.draw();\n    }\n    Component.prototype.draw = function () {\n        this.ctx.save();\n        this.ctx.translate(this.x, this.y);\n        this.ctx.fillStyle = this.color;\n        this.ctx.fillRect(0, 0, this.width, this.height);\n        var center = {\n            x: this.x + this.width * 0.5,\n            y: this.y + this.height * 0.5\n        };\n        this.ctx.translate(center.x, center.y);\n        this.ctx.rotate((Math.PI / 180) * this.direction);\n        this.ctx.translate(-center.x, -center.y);\n        this.ctx.restore();\n    };\n    Component.prototype.move = function (direction, distence) {\n        this.x += distence * Math.cos(direction);\n        this.y += distence * Math.sin(direction);\n    };\n    Component.prototype.moveTo = function (x, y, distence) {\n        var dx = x - this.x;\n        var dy = y - this.y;\n        var radian = Math.atan2(y, x);\n    };\n    Component.prototype.evaluation = function () { };\n    Component.prototype.step = function () { };\n    Component.prototype.clear = function () { };\n    Component.prototype.update = function () {\n        this.step();\n        this.draw();\n    };\n    Component.generateUID = 0;\n    return Component;\n}());\n\n\n\n//# sourceURL=webpack://genetic-algorithm-simulation/./src/basic/Component.ts?");
 
+/***/ }),
 
+/***/ "./src/basic/Simulator.ts":
+/*!********************************!*\
+  !*** ./src/basic/Simulator.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Simulator\": () => (/* binding */ Simulator)\n/* harmony export */ });\nvar Simulator = /** @class */ (function () {\n    function Simulator(ctx, width, height, components) {\n        if (components === void 0) { components = {}; }\n        this.ctx = ctx;\n        this.width = width;\n        this.height = height;\n        this.components = components;\n        /* init */\n    }\n    Simulator.prototype.setComponents = function (components) {\n        if (components === void 0) { components = {}; }\n        this.components = components;\n    };\n    Simulator.prototype.add = function (name, component) {\n        if (!(name in this.components)) {\n            this.components[name] = [];\n        }\n    };\n    Simulator.prototype.update = function () {\n        this.ctx.clearRect(0, 0, this.width, this.height);\n        for (var k in this.components) {\n            for (var i = 0; i < this.components[k].length; i++) {\n                var component = this.components[k][i];\n                component.update();\n            }\n        }\n    };\n    return Simulator;\n}());\n\n\n\n//# sourceURL=webpack://genetic-algorithm-simulation/./src/basic/Simulator.ts?");
+
+/***/ }),
+
+/***/ "./src/index.ts":
+/*!**********************!*\
+  !*** ./src/index.ts ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _basic_Component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./basic/Component */ \"./src/basic/Component.ts\");\n/* harmony import */ var _basic_Simulator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./basic/Simulator */ \"./src/basic/Simulator.ts\");\n\n\ndocument.addEventListener(\"DOMContentLoaded\", function () {\n    var canvas = document.getElementById(\"canvas\");\n    var ctx = canvas.getContext(\"2d\");\n    var FPS = 30;\n    var option = {\n        width: 800,\n        height: 600\n    };\n    /* component draw */\n    var test = new _basic_Component__WEBPACK_IMPORTED_MODULE_0__.Component(ctx, 100, 20, 20, 20, 0);\n    // test.draw()\n    /* component simulate */\n    var simulator = new _basic_Simulator__WEBPACK_IMPORTED_MODULE_1__.Simulator(ctx, option.width, option.height);\n    simulator.add('test unit', test);\n});\n\n\n//# sourceURL=webpack://genetic-algorithm-simulation/./src/index.ts?");
 
 /***/ })
-/******/ 	]);
+
+/******/ 	});
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
@@ -118,23 +96,11 @@ var Component = /** @class */ (function () {
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-(() => {
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _basic_Component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-
-document.addEventListener("DOMContentLoaded", function () {
-    var canvas = document.getElementById("canvas");
-    var ctx = canvas.getContext("2d");
-    var FPS = 60;
-    var width = 800;
-    var height = 600;
-    var test = new _basic_Component__WEBPACK_IMPORTED_MODULE_0__.Component(ctx, 0, 0, 10, 10, 0);
-    test.draw();
-});
-
-})();
-
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/index.ts");
+/******/ 	
 /******/ })()
 ;
