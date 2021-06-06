@@ -35,6 +35,7 @@ export default class Bacteria extends Component {
     return res
   }
 
+  // override
   step() {
     // move system
     if(this.gene.move_system.length) {

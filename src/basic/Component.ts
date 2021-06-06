@@ -1,4 +1,4 @@
-export class Component {
+export abstract class Component {
 
   public UID: number;
   static generateUID: number = 0
@@ -48,11 +48,11 @@ export class Component {
 
   }
 
-  evaluation() {}
+  abstract evaluation(): any
 
-  step() {}
+  abstract step(): any
 
-  clear() {}
+  abstract clear(): void
 
   update() {
     this.step()

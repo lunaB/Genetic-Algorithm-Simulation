@@ -1,6 +1,7 @@
 import { Simulator } from '@/Basic/Simulator'
 import Bacteria from '@/Basic/Components/Bacteria'
 import Util from '@/Basic/Util'
+import Food from './Basic/Components/Food'
 
 
 document.addEventListener("DOMContentLoaded", async() => {
@@ -11,9 +12,11 @@ document.addEventListener("DOMContentLoaded", async() => {
     width: 800,
     height: 600
   }
-
-  /* init simulator */
+  
+  /* add simulator */
   const simulator = new Simulator(ctx, option.width, option.height)
+  
+  /* first add bacteria */
   for(let i=0;i<10;i++) {
     let width = 20
     let height = 20
@@ -24,7 +27,20 @@ document.addEventListener("DOMContentLoaded", async() => {
     bacteria.gene.initRandom()
     simulator.add('Bacteria', bacteria)
   }
-  
-  /* test */
-  await simulator.test(200, FPS)
+
+  for(let g=0;g<10;g++){
+    /* add food */
+    for(let i=0;i<50;i++) {
+      let width = 10
+      let height = 10
+      let x = Util.random(0, option.width - width)
+      let y = Util.random(0, option.height - height)
+
+      let food = new Food(ctx, x, y, width, height, 0, '#FF0000')
+      simulator.add('Food', food)
+    }
+    
+    /* test */
+    await simulator.test(200, FPS)
+  }
 })
