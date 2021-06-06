@@ -55,7 +55,5 @@ export class BacteriaGene extends Gene {
       
       this.move_system.push(ms);
     }
-
-    console.log(this.move_system)
   }
 }
