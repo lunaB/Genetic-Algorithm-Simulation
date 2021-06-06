@@ -1,5 +1,6 @@
-import { Component } from './basic/Component'
-import { Simulator } from './basic/Simulator'
+import { Simulator } from '@/Basic/Simulator'
+import Bacteria from '@/Basic/Components/Bacteria'
+import Util from '@/Basic/Util'
 
 
 document.addEventListener("DOMContentLoaded", async() => {
@@ -14,10 +15,16 @@ document.addEventListener("DOMContentLoaded", async() => {
   /* init simulator */
   const simulator = new Simulator(ctx, option.width, option.height)
   for(let i=0;i<10;i++) {
-    let test = new Component(ctx, 100, 20, 20, 20, 0)
-    simulator.add('component', test)
+    let width = 20
+    let height = 20
+    let x = Util.random(0, option.width - width)
+    let y = Util.random(0, option.height - height)
+
+    let bacteria = new Bacteria(ctx, simulator, 5, x, y, width, height, 2, "#FBCEB1")
+    bacteria.gene.initRandom()
+    simulator.add('Bacteria', bacteria)
   }
   
   /* test */
-  // await simulator.test(500, FPS)
+  await simulator.test(200, FPS)
 })

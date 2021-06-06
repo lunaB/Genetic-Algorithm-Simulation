@@ -9,7 +9,7 @@ export class BacteriaGene extends Gene {
     chromosome_size: number,
     chromosome: Array<any> = []) {
 
-    super(chromosome_size, ['A','G','C','T'])
+    super(chromosome_size, ['A','G','C','T'], chromosome)
 
     /* init */
   }
@@ -43,17 +43,19 @@ export class BacteriaGene extends Gene {
       let sp = ms_tmp.splice(0,2)
       let ms: [number, number] = [0, 0]
 
-      if(sp[0] == 'A') ms.push(0)
-      else if(sp[0] == 'G') ms.push(90)
-      else if(sp[0] == 'C') ms.push(180)
-      else if(sp[0] == 'T') ms.push(270)
+      if(sp[0] == 'A') ms[0] = 0
+      else if(sp[0] == 'G') ms[0] = 90
+      else if(sp[0] == 'C') ms[0] = 180
+      else if(sp[0] == 'T') ms[0] = 270
         
-      if(sp[1] == 'A') sp[1] = ms.push(1)
-      else if(sp[1] == 'G') ms.push(0.9)
-      else if(sp[1] == 'C') ms.push(0.8)
-      else if(sp[1] == 'T') ms.push(0.7)
+      if(sp[1] == 'A') sp[1] = ms[1] = 1
+      else if(sp[1] == 'G') ms[1] = 0.9
+      else if(sp[1] == 'C') ms[1] = 0.8
+      else if(sp[1] == 'T') ms[1] = 0.7
       
       this.move_system.push(ms);
     }
+
+    console.log(this.move_system)
   }
 }

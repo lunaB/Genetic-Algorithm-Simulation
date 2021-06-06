@@ -1,9 +1,8 @@
-import { Component } from "../../Component";
-import { Gene } from "../../Gene";
-import { Simulator } from "../../Simulator";
+import { Component } from "@/Basic/Component"
+import { Simulator } from "@/Basic/Simulator";
 import { BacteriaGene } from "./BacteriaGene";
 
-export class Bacteria extends Component {
+export default class Bacteria extends Component {
 
   gene: BacteriaGene
   move_iter: number
