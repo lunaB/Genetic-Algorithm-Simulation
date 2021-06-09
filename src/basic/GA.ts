@@ -1,4 +1,5 @@
 import Bacteria from "@/Basic/Components/Bacteria"
+import { Gene } from "@/Basic/Gene"
 
 type SelectionResult = Array<[Bacteria, Bacteria]>
 type CrossoverResult = Array<Array<string>>
@@ -52,17 +53,28 @@ export const Crossover = {
 export const Mutation = {
   mutation(bacteria: Bacteria, rate: number = 0.08) {
     if(rate > Math.random()) {
-      bacteria.gene.initRandom()
+      this.exchange(bacteria.gene)
       return true
     }
     else {
       return false
     }
+  },
+  exchange(gene: Gene) {
+    let base1 = Math.floor(Math.random() * gene.chromosome_size)
+    let base2 = Math.floor(Math.random() * gene.chromosome_size)
+    let newChromosome = gene.chromosome
+    
+    let tmp = newChromosome[base1]
+    newChromosome[base1] = newChromosome[base2]
+    newChromosome[base2] = tmp
+    
+    gene.setChromosome(newChromosome)
   }
 }
 
 export const Replace = {
   replace() {
-    
+
   }
 }
