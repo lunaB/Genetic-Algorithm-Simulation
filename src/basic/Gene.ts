@@ -10,6 +10,7 @@ export abstract class Gene {
   abstract initSystem(): void
 
   initRandom() {
+    this.chromosome = []
     for(let i=0;i<this.chromosome_size;i++) {
       let base = Math.floor(Math.random()*this.chromosome_base.length)
       this.chromosome.push(this.chromosome_base[base])

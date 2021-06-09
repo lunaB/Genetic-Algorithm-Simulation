@@ -10,7 +10,6 @@ export class BacteriaGene extends Gene {
     chromosome: Array<any> = []) {
 
     super(chromosome_size, ['A','G','C','T'], chromosome)
-
     /* init */
   }
 

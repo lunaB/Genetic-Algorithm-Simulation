@@ -15,8 +15,6 @@ export abstract class Component {
 
     this.UID = Component.generateUID
     Component.generateUID += 1
-
-    this.draw()
   }
 
   draw() {
@@ -57,5 +55,12 @@ export abstract class Component {
   update() {
     this.step()
     this.draw()
+  }
+
+  static evaluationSort(components: Array<Component>) {
+    let evaluation = components.sort((a, b) => {
+      return b.evaluation() - a.evaluation()
+    })
+    return evaluation
   }
 }

@@ -24,7 +24,7 @@ export default class Bacteria extends Component {
     super(ctx, x, y, width, height, direction, color, shape)
     
     /* init */
-    this.gene = new BacteriaGene(30)
+    this.gene = new BacteriaGene(60)
     this.move_iter = 0
     this.fullness = 0
   }

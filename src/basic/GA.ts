@@ -1,18 +1,7 @@
 import Bacteria from "@/Basic/Components/Bacteria"
-import { Component } from "./Component"
 
 type SelectionResult = Array<[Bacteria, Bacteria]>
 type CrossoverResult = Array<Array<string>>
-
-export const Util = {
-  /* Util */
-  evaluationSort(components: Array<Bacteria>) {
-    let evaluation = components.sort((a, b) => {
-      return b.evaluation() - a.evaluation()
-    })
-    return evaluation
-  },
-}
 
 export const Selection = {
   /* Selection */
@@ -44,7 +33,7 @@ export const Selection = {
 
 export const Crossover = {
   /* Crossover */
-  crossover(selection: Array<Array<Bacteria>>, frequency: number = 1): CrossoverResult {
+  crossover(selection: Array<Array<Bacteria>>): CrossoverResult {
 
     let newChromosomes = new Array<Array<string>>()
     selection.forEach((v, i) => {
@@ -57,5 +46,23 @@ export const Crossover = {
       newChromosomes.push(a.slice(0, r).concat(b.slice(r, b.length)))
     })
     return newChromosomes
+  }
+}
+
+export const Mutation = {
+  mutation(bacteria: Bacteria, rate: number = 0.08) {
+    if(rate > Math.random()) {
+      bacteria.gene.initRandom()
+      return true
+    }
+    else {
+      return false
+    }
+  }
+}
+
+export const Replace = {
+  replace() {
+    
   }
 }
