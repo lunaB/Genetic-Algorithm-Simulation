@@ -28,8 +28,8 @@ document.addEventListener("DOMContentLoaded", async() => {
       size: 15,
       speed: 5
     },
-    generation: 100,
-    step: 500,
+    generation: 1000,
+    step: 1000,
     mutations: 0.15
   }
 
@@ -78,6 +78,9 @@ document.addEventListener("DOMContentLoaded", async() => {
       return v.evaluation()
     })
     console.log('** generation top 5 score : '+top5score)
+    if(totalScore >= 150) {
+      break
+    }
     /* selection */
     let pairs = Selection.rouletteWheelSelection(<Array<Bacteria>>simulator.components['Bacteria'], env.bacteria.num)
     console.log('** selection %d pair', pairs.length)
@@ -131,6 +134,7 @@ document.addEventListener("DOMContentLoaded", async() => {
     let food = new Food(ctx, x, y, width, height, 0, '#FF0000')
     simulator.add('Food', food)
   }
+  await new Promise(resolve => setTimeout(resolve, 2000))
   console.log('** test')
   await simulator.test(env.step, FPS)
 })
