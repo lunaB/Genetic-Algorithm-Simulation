@@ -28,8 +28,8 @@ document.addEventListener("DOMContentLoaded", async() => {
       size: 15,
       speed: 5
     },
-    generation: 1000,
-    step: 1000,
+    generation: 100,
+    step: 500,
     mutations: 0.15
   }
 
@@ -64,20 +64,21 @@ document.addEventListener("DOMContentLoaded", async() => {
 
     /* test */
     console.log('** test')
-    // simulator.simulate(env.step)
-    await simulator.test(env.step, FPS)
+    simulator.simulate(env.step)
+    // await simulator.test(env.step, FPS)
     /* score */
     const totalScore = simulator.components['Bacteria'].reduce((s, v) => {
       return s + v.evaluation()
     }, 0)
     console.log('** generation total score : %d', totalScore)
-    const sortByScore = simulator.components['Bacteria'].sort((a, b) => {
+    const sortByScore = <Array<Bacteria>>simulator.components['Bacteria'].sort((a, b) => {
       return b.evaluation() - a.evaluation()
     })
     const top5score = sortByScore.slice(0, 5).map((v) => {
       return v.evaluation()
     })
     console.log('** generation top 5 score : '+top5score)
+    console.log('** best gene : ',sortByScore[0].gene.chromosome)
     if(totalScore >= 150) {
       break
     }
