@@ -7,9 +7,9 @@ HTML5 Canvas와 Typescript로 만든 유전 알고리즘 시뮬레이터
 
 # Install & Run
 `npm install`<br>
-## demo mode  
+## Demo  
 `open index.html`<br>
 
-## dev mode 
+## Dev mode 
 `npm run dev`<br>
 `open localhost:5000`<br>
