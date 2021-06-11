@@ -4,21 +4,25 @@ import Util from '@/Basic/Util'
 import Food from '@/Basic/Components/Food'
 import { Selection, Crossover, Mutation } from '@/Basic/GA'
 import { Component } from '@/Basic/Component'
+import Chart from '@/Basic/Analysis/Graph'
 
 document.addEventListener("DOMContentLoaded", async() => {
 
-  await new Promise(resolve => setTimeout(resolve, 1000))
+  const sleep = async(ms: number) => await new Promise(resolve => setTimeout(resolve, ms))
 
-  const canvas: any = document.getElementById("canvas")
-  const ctx: CanvasRenderingContext2D = canvas.getContext("2d")
-  const textarea = <HTMLInputElement>document.getElementById("log")
-  
+  const canvasE: any = document.getElementById("canvas")
+  const ctx: CanvasRenderingContext2D = canvasE.getContext("2d")
+  const textareaE = <HTMLInputElement>document.getElementById("log")
+  const graphE: any = document.getElementById('graph')
+  const graphctx: CanvasRenderingContext2D = graphE.getContext('2d');
+  const graph = new Chart(graphctx)
   const log = (x: string, obj: any = null) => {
     if(obj !== null) {
-      textarea.value += x + JSON.stringify(obj) + '\n' 
+      textareaE.value += x + JSON.stringify(obj) + '\n' 
     }else {
-      textarea.value += x + '\n' 
+      textareaE.value += x + '\n' 
     }
+    textareaE.scrollTop = textareaE.scrollHeight
   }
 
   const FPS = 30
@@ -37,9 +41,10 @@ document.addEventListener("DOMContentLoaded", async() => {
       size: 15,
       speed: 5
     },
-    generation: 1,
+    generation: 50,
     step: 100,
-    mutations: 0.15
+    mutations: 0.15,
+    slowmode: 1 // 0, 1, 2
   }
 
   /* add simulator */
@@ -72,12 +77,21 @@ document.addEventListener("DOMContentLoaded", async() => {
 
     /* test */
     log('** test ...')
-    // simulator.simulate(env.step)
-    await simulator.test(env.step, FPS)
+    if(env.slowmode == 0) {
+      simulator.simulate(env.step)
+    }
+    else if(env.slowmode == 1) {
+      simulator.simulate(env.step, true)
+      await sleep(500)
+    }
+    else if(env.slowmode == 2) {
+      await simulator.test(env.step, FPS)
+    }
     /* score */
     const totalScore = simulator.components['Bacteria'].reduce((s, v) => {
       return s + v.evaluation()
     }, 0)
+    graph.append(g.toString(), totalScore)
     log('** generation total score : ', totalScore)
     const sortByScore = <Array<Bacteria>>simulator.components['Bacteria'].sort((a, b) => {
       return b.evaluation() - a.evaluation()
@@ -144,7 +158,7 @@ document.addEventListener("DOMContentLoaded", async() => {
     let food = new Food(ctx, x, y, width, height, 0, '#FF0000')
     simulator.add('Food', food)
   }
-  await new Promise(resolve => setTimeout(resolve, 2000))
+  await sleep(2000)
   console.log('** test')
   await simulator.test(env.step, FPS)
 })

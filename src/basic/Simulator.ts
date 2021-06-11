@@ -32,9 +32,17 @@ export class Simulator {
   }
 
   // step -> simulate
-  simulate(step_cnt: number = 1000) {
-    for(var i=0;i<step_cnt;i++) {
-      this.step()
+  simulate(step_cnt: number = 1000, draw: boolean = false) {
+    if(draw) {
+      for(var i=0;i<step_cnt-1;i++) {
+        this.step()
+      }
+      this.update()
+    }
+    else {
+      for(var i=0;i<step_cnt;i++) {
+        this.step()
+      }
     }
   }
 

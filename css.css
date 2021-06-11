@@ -1,0 +1,33 @@
+* { padding: 0; margin: 0 auto; }
+#canvas { 
+  background: #333; 
+  display: block; 
+  border: 5px solid #000; 
+  box-sizing: border-box;
+  margin: 15px;
+}
+#log {
+  border: 5px solid #000; 
+  box-sizing: border-box;
+  margin: 15px;
+  resize: none;
+}
+.chart_box {
+  border: 5px solid #000; 
+  box-sizing: border-box;
+  margin: 0px 15px;
+}
+#graph {
+  width: 90%;
+}
+.wrap {
+  margin-top: 20px; 
+  text-align: center;
+}
+.flex_row {
+  display: flex;
+  flex-direction: row;
+}
+.flex_row > * {
+  flex: 1;
+}

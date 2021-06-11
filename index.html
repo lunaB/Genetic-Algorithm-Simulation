@@ -5,37 +5,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>시뮬레이터</title>
-  <style>
-    * { padding: 0; margin: 0 auto; }
-    #canvas { 
-      background: #333; 
-      display: block; 
-      border: 5px solid #000; 
-      box-sizing: border-box;
-      margin: 15px;
-      flex: 1;
-    }
-    #log {
-      flex: 1;
-      border: 5px solid #000; 
-      box-sizing: border-box;
-      margin: 15px;
-    }
-    .wrap {
-      margin-top: 100px; text-align: center;
-    }
-    .box {
-      display: flex;
-      flex-direction: row;
-    }
-  </style>
+  <link rel="stylesheet" href="css.css">
 </head>
 <body>
   <div class="wrap">
     <h1>Simulator</h1>
-    <div class="box">
+    <div class="flex_row">
       <canvas width="800" height="600" id="canvas"></canvas>
-      <textarea id="log"></textarea>
+      <textarea id="log" readonly></textarea>
+    </div>
+    <div class="chart_box">
+      <canvas id="graph" width="1000" height="200"></canvas>
     </div>
   </div>
   <script src="dist/main.js"></script>

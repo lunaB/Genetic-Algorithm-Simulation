@@ -32,7 +32,7 @@ export default class Bacteria extends Component {
 
   // override
   evaluation() {
-    let res = this.fullness + Math.max(0, this.escapeScore)
+    let res = this.fullness //+ Math.max(0, this.escapeScore)
     return res
   }
 
