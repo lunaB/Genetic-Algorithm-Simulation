@@ -7,7 +7,7 @@ export default class Bacteria extends Component {
   gene: BacteriaGene
   move_iter: number
   fullness: number
-  target: Array<string>
+  escapeScore: number
 
   constructor(
     ctx: CanvasRenderingContext2D,
@@ -27,11 +27,12 @@ export default class Bacteria extends Component {
     this.gene = new BacteriaGene(20)
     this.move_iter = 0
     this.fullness = 0
+    this.escapeScore = 10
   }
 
   // override
   evaluation() {
-    let res = this.fullness
+    let res = this.fullness + Math.max(0, this.escapeScore)
     return res
   }
 
@@ -68,10 +69,17 @@ export default class Bacteria extends Component {
         }
       }
     }
+
+    // escape screan
+    if(this.x < 0 || this.x+this.width > this.simulator.width ||
+      this.y < 0 || this.y+this.height > this.simulator.height) {
+      this.escapeScore -= 0.1
+    }
   }
 
   // override
   clear() {
     this.fullness = 0
+    this.escapeScore = 10
   }
 }

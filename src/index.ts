@@ -5,13 +5,22 @@ import Food from '@/Basic/Components/Food'
 import { Selection, Crossover, Mutation } from '@/Basic/GA'
 import { Component } from '@/Basic/Component'
 
-
 document.addEventListener("DOMContentLoaded", async() => {
 
   await new Promise(resolve => setTimeout(resolve, 1000))
 
   const canvas: any = document.getElementById("canvas")
   const ctx: CanvasRenderingContext2D = canvas.getContext("2d")
+  const textarea = <HTMLInputElement>document.getElementById("log")
+  
+  const log = (x: string, obj: any = null) => {
+    if(obj !== null) {
+      textarea.value += x + JSON.stringify(obj) + '\n' 
+    }else {
+      textarea.value += x + '\n' 
+    }
+  }
+
   const FPS = 30
   const option = {
     width: 800,
@@ -28,8 +37,8 @@ document.addEventListener("DOMContentLoaded", async() => {
       size: 15,
       speed: 5
     },
-    generation: 100,
-    step: 500,
+    generation: 1,
+    step: 100,
     mutations: 0.15
   }
 
@@ -49,9 +58,8 @@ document.addEventListener("DOMContentLoaded", async() => {
   }
 
   for(let g=0;g<env.generation;g++){
-    console.log('========[generation %d]========', g)
+    log('[generation '+g+']================')
     /* add food */
-    console.log('** add food')
     for(let i=0;i<env.food.num;i++) {
       let width = env.food.size
       let height = env.food.size
@@ -63,31 +71,32 @@ document.addEventListener("DOMContentLoaded", async() => {
     }
 
     /* test */
-    console.log('** test')
-    simulator.simulate(env.step)
-    // await simulator.test(env.step, FPS)
+    log('** test ...')
+    // simulator.simulate(env.step)
+    await simulator.test(env.step, FPS)
     /* score */
     const totalScore = simulator.components['Bacteria'].reduce((s, v) => {
       return s + v.evaluation()
     }, 0)
-    console.log('** generation total score : %d', totalScore)
+    log('** generation total score : ', totalScore)
     const sortByScore = <Array<Bacteria>>simulator.components['Bacteria'].sort((a, b) => {
       return b.evaluation() - a.evaluation()
     })
     const top5score = sortByScore.slice(0, 5).map((v) => {
       return v.evaluation()
     })
-    console.log('** generation top 5 score : '+top5score)
-    console.log('** best gene : ',sortByScore[0].gene.chromosome)
-    if(totalScore >= 150) {
+    log('** generation top 5 score : ', top5score)
+    log('** best gene : ', sortByScore[0].gene.chromosome)
+    /* escape loop */
+    if(totalScore >= 550) {
       break
     }
     /* selection */
     let pairs = Selection.rouletteWheelSelection(<Array<Bacteria>>simulator.components['Bacteria'], env.bacteria.num)
-    console.log('** selection %d pair', pairs.length)
+    log('** selection pair : ', pairs.length)
     /* crossover */
     let genes = Crossover.crossover(pairs)
-    console.log('** crossover %d gene', genes.length)
+    log('** crossover gene : ', genes.length)
     /* add new generation */
     if(g != env.generation - 1) {
       simulator.clear()
@@ -107,12 +116,12 @@ document.addEventListener("DOMContentLoaded", async() => {
         if(o) m++
         simulator.add('Bacteria', bacteria)
       }
-      console.log('** mutation %d/%d', m, env.bacteria.num)
+      log('** mutation '+m +'/'+env.bacteria.num)
     }
   }
 
   /* Done */
-  console.log('========[Done]========')
+  log('[Done]=================')
 
   let bacterias = <Array<Bacteria>>Component.evaluationSort(<Array<Component>>simulator.components['Bacteria'])
   simulator.clear()

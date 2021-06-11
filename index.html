@@ -7,21 +7,36 @@
   <title>시뮬레이터</title>
   <style>
     * { padding: 0; margin: 0 auto; }
-    canvas { 
+    #canvas { 
       background: #333; 
       display: block; 
       border: 5px solid #000; 
-      box-sizing: border-box
+      box-sizing: border-box;
+      margin: 15px;
+      flex: 1;
+    }
+    #log {
+      flex: 1;
+      border: 5px solid #000; 
+      box-sizing: border-box;
+      margin: 15px;
     }
     .wrap {
       margin-top: 100px; text-align: center;
+    }
+    .box {
+      display: flex;
+      flex-direction: row;
     }
   </style>
 </head>
 <body>
   <div class="wrap">
     <h1>Simulator</h1>
-    <canvas width="800" height="600" id="canvas"></canvas>
+    <div class="box">
+      <canvas width="800" height="600" id="canvas"></canvas>
+      <textarea id="log"></textarea>
+    </div>
   </div>
   <script src="dist/main.js"></script>
 </body>
