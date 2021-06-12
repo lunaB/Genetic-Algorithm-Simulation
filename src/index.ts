@@ -3,8 +3,9 @@ import Bacteria from '@/Basic/Components/Bacteria'
 import Util from '@/Basic/Util'
 import Food from '@/Basic/Components/Food'
 import { Selection, Crossover, Mutation } from '@/Basic/GA'
-import { Component } from '@/Basic/Component'
+import { Component } from '@/Basic/Components/Component'
 import Chart from '@/Basic/Analysis/Graph'
+import Record from '@/Basic/Record'
 
 document.addEventListener("DOMContentLoaded", async() => {
 
@@ -41,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async() => {
       size: 15,
       speed: 5
     },
-    generation: 50,
+    generation: 5,
     step: 100,
     mutations: 0.15,
     slowmode: 1 // 0, 1, 2
@@ -82,6 +83,7 @@ document.addEventListener("DOMContentLoaded", async() => {
     }
     else if(env.slowmode == 1) {
       simulator.simulate(env.step, true)
+      simulator.draw()
       await sleep(500)
     }
     else if(env.slowmode == 2) {
@@ -159,6 +161,10 @@ document.addEventListener("DOMContentLoaded", async() => {
     simulator.add('Food', food)
   }
   await sleep(2000)
-  console.log('** test')
+  log('** test')
   await simulator.test(env.step, FPS)
+
+  log('** record')
+  simulator.clear()
+  await simulator.play(Record.tapeCnt.toString(), FPS)
 })

@@ -1,4 +1,4 @@
-import { Component } from "@/Basic/Component"
+import { Component } from "@/Basic/Components/Component"
 import { Simulator } from "@/Basic/Simulator";
 import { BacteriaGene } from "./BacteriaGene";
 
@@ -25,9 +25,8 @@ export default class Bacteria extends Component {
     
     /* init */
     this.gene = new BacteriaGene(20)
-    this.move_iter = 0
-    this.fullness = 0
-    this.escapeScore = 10
+    /* clear */
+    this.clear()
   }
 
   // override
@@ -79,6 +78,7 @@ export default class Bacteria extends Component {
 
   // override
   clear() {
+    this.move_iter = 0
     this.fullness = 0
     this.escapeScore = 10
   }

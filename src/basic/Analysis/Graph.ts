@@ -5,7 +5,7 @@ export default class Graph {
   labels: Array<string> = []
   data: Array<number> = []
 
-  backgroundColor: [
+  backgroundColor: Array<string> =  [
     'rgba(255, 99, 132, 0.2)',
     'rgba(54, 162, 235, 0.2)',
     'rgba(255, 206, 86, 0.2)',
@@ -13,7 +13,7 @@ export default class Graph {
     'rgba(153, 102, 255, 0.2)',
     'rgba(255, 159, 64, 0.2)'
   ]
-  borderColor: [
+  borderColor: Array<string> = [
     'rgba(255, 99, 132, 1)',
     'rgba(54, 162, 235, 1)',
     'rgba(255, 206, 86, 1)',
@@ -37,7 +37,7 @@ export default class Graph {
       options: {
         scales: {
           y: {
-              beginAtZero: true
+            beginAtZero: true
           }
         }
       }

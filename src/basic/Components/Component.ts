@@ -39,11 +39,13 @@ export abstract class Component {
     this.y += distence * Math.sin(direction)
   }
 
-  moveTo(x: number, y: number, distence: number) {
+  moveTo(component: Component, distence: number) {
+    const x = component.x
+    const y = component.y
     const dx = x - this.x
     const dy = y - this.y
     const radian = Math.atan2(y, x)
-
+    /* 미완 */
   }
 
   abstract evaluation(): any
@@ -63,4 +65,20 @@ export abstract class Component {
     })
     return evaluation
   }
+
+  clone() {
+    return this.cloneObject(this)
+  }
+  private cloneObject(obj: any) {
+    let clone: any = {};
+    for (let key in obj) {
+      if (typeof obj[key] == "object" && obj[key] != null) {
+        clone[key] = this.cloneObject(obj[key]);
+      } else {
+        clone[key] = obj[key];
+      }
+    }
+    return clone;
+  }
+
 }
