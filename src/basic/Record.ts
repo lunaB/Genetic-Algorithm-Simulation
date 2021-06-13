@@ -48,7 +48,7 @@ export default class Record {
       variables
     })
   }
-
+  
   // getTape(name: string) {
   //   console.log(this.tapes[name].moments.map(x=> JSON.parse(x.components)))
   //   let res: { moments: MomentRaw, } = {
