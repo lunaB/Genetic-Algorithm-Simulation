@@ -1,4 +1,4 @@
-import { Component } from "@/Basic/Components/Component"
+import Component from "@/Basic/Components/Component"
 
 export default class Food extends Component {
 

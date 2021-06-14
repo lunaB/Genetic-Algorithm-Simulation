@@ -1,11 +1,11 @@
-import { Component } from "./Components/Component";
+import Component from "./Components/Component";
 import Record from "./Record";
 
 export type Scene = {
   [name: string]: Array<Component>
 }
 
-export class Simulator {
+export default class Simulator {
 
   record: Record
   onAir: boolean
@@ -55,11 +55,9 @@ export class Simulator {
   }
 
   // step -> simulate
-  simulate(step_cnt: number = 1000, record: boolean = false) {
-    if(record) this.record.addTape()
+  simulate(step_cnt: number = 1000) {
     for(var i=0;i<step_cnt;i++) {
       this.step()
-      if(record) this.record.record(this.components)
     }
   }
 
@@ -76,12 +74,10 @@ export class Simulator {
 
   // update -> test
   async test(step_cnt: number = 1000, FPS: number = 30, record: boolean = false) {
-    if(record) this.record.addTape()
     let step = 0;
     return new Promise((resolve, reject) => {
       let interval = setInterval(()=> {
         this.update() // update draw
-        if(record) this.record.record(this.components)
         step += 1
         if(step > step_cnt) {
           clearInterval(interval)
@@ -93,20 +89,7 @@ export class Simulator {
 
   // play record
   async play(name: string, FPS: number = 30) {
-    let step_cnt = this.record.tapes[name].moments.length - 1
-    let step = 0;
-    return new Promise((resolve, reject) => {
-      let interval = setInterval(()=> {
-        this.components = this.record.tapes[name].moments[step].components
-        this.draw()
-        step += 1
-        console.log(this.components['Bacteria'].map(x=>x.x))
-        if(step > step_cnt) {
-          clearInterval(interval)
-          resolve(null)
-        }
-      }, FPS)
-    })
+    
   }
 
   clear() {

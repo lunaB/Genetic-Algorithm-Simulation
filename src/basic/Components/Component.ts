@@ -1,4 +1,4 @@
-export abstract class Component {
+export default abstract class Component {
 
   public UID: number;
   static generateUID: number = 0

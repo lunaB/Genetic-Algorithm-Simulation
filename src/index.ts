@@ -1,9 +1,9 @@
-import { Simulator } from '@/Basic/Simulator'
+import Simulator from '@/Basic/Simulator'
 import Bacteria from '@/Basic/Components/Bacteria'
 import Util from '@/Basic/Util'
 import Food from '@/Basic/Components/Food'
 import { Selection, Crossover, Mutation } from '@/Basic/GA'
-import { Component } from '@/Basic/Components/Component'
+import Component from '@/Basic/Components/Component'
 import Chart from '@/Basic/Analysis/Graph'
 import Record from '@/Basic/Record'
 
@@ -34,16 +34,17 @@ document.addEventListener("DOMContentLoaded", async() => {
   
   const env = {
     food: {
-      num: 300,
+      num: 500,
       size: 5
     },
     bacteria: {
+      r: 0,
       num: 20,
       size: 15,
       speed: 5
     },
-    generation: 5,
-    step: 100,
+    generation: 50,
+    step: 1000,
     mutations: 0.15,
     slowmode: 1 // 0, 1, 2
   }
@@ -57,6 +58,8 @@ document.addEventListener("DOMContentLoaded", async() => {
     let height = env.bacteria.size
     let x = Util.random(0, option.width - width)
     let y = Util.random(0, option.height - height)
+    // let x = option.width/2 - env.bacteria.size/2
+    // let y = option.height/2 - env.bacteria.size/2
 
     let bacteria = new Bacteria(ctx, simulator, env.bacteria.speed, x, y, width, height, 2, "#FBCEB1")
     bacteria.gene.initRandom()
@@ -82,7 +85,7 @@ document.addEventListener("DOMContentLoaded", async() => {
       simulator.simulate(env.step)
     }
     else if(env.slowmode == 1) {
-      simulator.simulate(env.step, true)
+      simulator.simulate(env.step)
       simulator.draw()
       await sleep(500)
     }
@@ -93,7 +96,6 @@ document.addEventListener("DOMContentLoaded", async() => {
     const totalScore = simulator.components['Bacteria'].reduce((s, v) => {
       return s + v.evaluation()
     }, 0)
-    graph.append(g.toString(), totalScore)
     log('** generation total score : ', totalScore)
     const sortByScore = <Array<Bacteria>>simulator.components['Bacteria'].sort((a, b) => {
       return b.evaluation() - a.evaluation()
@@ -101,6 +103,11 @@ document.addEventListener("DOMContentLoaded", async() => {
     const top5score = sortByScore.slice(0, 5).map((v) => {
       return v.evaluation()
     })
+    /* graph */
+    const avg = totalScore / env.bacteria.num
+    const top = top5score
+    graph.append(g.toString(), avg, top)
+
     log('** generation top 5 score : ', top5score)
     log('** best gene : ', sortByScore[0].gene.chromosome)
     /* escape loop */
@@ -108,7 +115,7 @@ document.addEventListener("DOMContentLoaded", async() => {
       break
     }
     /* selection */
-    let pairs = Selection.rouletteWheelSelection(<Array<Bacteria>>simulator.components['Bacteria'], env.bacteria.num)
+    let pairs = Selection.rouletteWheelSelection(<Array<Bacteria>>simulator.components['Bacteria'], env.bacteria.num).slice(0, env.bacteria.num - env.bacteria.r)
     log('** selection pair : ', pairs.length)
     /* crossover */
     let genes = Crossover.crossover(pairs)
@@ -132,7 +139,19 @@ document.addEventListener("DOMContentLoaded", async() => {
         if(o) m++
         simulator.add('Bacteria', bacteria)
       }
-      log('** mutation '+m +'/'+env.bacteria.num)
+      log('** mutation '+m +'/'+(env.bacteria.num - env.bacteria.r))
+    }
+    for(let i=0;i<env.bacteria.r;i++) {
+      let width = env.bacteria.size
+      let height = env.bacteria.size
+      let x = Util.random(0, option.width - width)
+      let y = Util.random(0, option.height - height)
+      // let x = option.width/2 - env.bacteria.size/2
+      // let y = option.height/2 - env.bacteria.size/2
+  
+      let bacteria = new Bacteria(ctx, simulator, env.bacteria.speed, x, y, width, height, 2, "#FBCEB1")
+      bacteria.gene.initRandom()
+      simulator.add('Bacteria', bacteria)
     }
   }
 
@@ -146,6 +165,8 @@ document.addEventListener("DOMContentLoaded", async() => {
     let height = env.bacteria.size
     let x = Util.random(0, option.width - width)
     let y = Util.random(0, option.height - height)
+    // let x = option.width/2 - env.bacteria.size/2
+    // let y = option.height/2 - env.bacteria.size/2
 
     let bacteria = new Bacteria(ctx, simulator, env.bacteria.speed, x, y, width, height, 2, "#FBCEB1")
     bacteria.gene.setChromosome(bacterias[i].gene.chromosome)
@@ -166,5 +187,5 @@ document.addEventListener("DOMContentLoaded", async() => {
 
   log('** record')
   simulator.clear()
-  await simulator.play(Record.tapeCnt.toString(), FPS)
+  await simulator.play('name', FPS)
 })

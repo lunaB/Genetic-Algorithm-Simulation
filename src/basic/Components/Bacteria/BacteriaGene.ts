@@ -1,7 +1,7 @@
 import { Gene } from "../../Gene"
 
 
-export class BacteriaGene extends Gene {
+export default class BacteriaGene extends Gene {
 
   move_system: Array<[number, number]> = []
 

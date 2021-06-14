@@ -1,6 +1,6 @@
-import { Component } from "@/Basic/Components/Component"
-import { Simulator } from "@/Basic/Simulator";
-import { BacteriaGene } from "./BacteriaGene";
+import Component from "@/Basic/Components/Component"
+import Simulator from "@/Basic/Simulator";
+import BacteriaGene from "./BacteriaGene";
 
 export default class Bacteria extends Component {
 
@@ -8,6 +8,7 @@ export default class Bacteria extends Component {
   move_iter: number
   fullness: number
   escapeScore: number
+  dead: boolean
 
   constructor(
     ctx: CanvasRenderingContext2D,
@@ -24,19 +25,25 @@ export default class Bacteria extends Component {
     super(ctx, x, y, width, height, direction, color, shape)
     
     /* init */
-    this.gene = new BacteriaGene(20)
+    this.gene = new BacteriaGene(50)
     /* clear */
     this.clear()
   }
 
   // override
   evaluation() {
+    if(this.dead) return 1
     let res = this.fullness //+ Math.max(0, this.escapeScore)
     return res
   }
 
   // override
   step() {
+    if(this.dead == false && this.fullness >= 10) {
+      this.dead = true
+      this.color = '#000000'
+    }
+    if(this.dead) return
     // move system
     if(this.gene.move_system.length) {
       if(this.move_iter == this.gene.move_system.length) {
@@ -81,5 +88,6 @@ export default class Bacteria extends Component {
     this.move_iter = 0
     this.fullness = 0
     this.escapeScore = 10
+    this.dead = false
   }
 }

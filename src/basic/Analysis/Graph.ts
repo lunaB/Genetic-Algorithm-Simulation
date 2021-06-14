@@ -3,7 +3,8 @@ import Chart from 'chart.js/auto';
 export default class Graph {
   chart: Chart
   labels: Array<string> = []
-  data: Array<number> = []
+  bar: Array<number> = []
+  line: Array<any> = []
 
   backgroundColor: Array<string> =  [
     'rgba(255, 99, 132, 0.2)',
@@ -21,18 +22,30 @@ export default class Graph {
     'rgba(153, 102, 255, 1)',
     'rgba(255, 159, 64, 1)'
   ]
+
   constructor(ctx: CanvasRenderingContext2D) {
+    for(let i=0;i<5;i++) {
+      this.line.push({
+        type: 'line',
+        label: 'top score - '+(i+1),
+        data: [],
+        backgroundColor: this.backgroundColor,
+        borderColor: this.borderColor,
+        borderWidth: 1
+      })
+    }
+
     this.chart = new Chart(ctx, {
-      type: 'bar',
       data: {
         labels: this.labels,
         datasets: [{
-          label: 'Total Evalueation',
-          data: this.data,
+          type: 'bar',
+          label: 'Average Evalueation',
+          data: this.bar,
           backgroundColor: this.backgroundColor,
           borderColor: this.borderColor,
           borderWidth: 1
-        }]
+        }, ...this.line]
       },
       options: {
         scales: {
@@ -44,9 +57,12 @@ export default class Graph {
     })
   }
 
-  append(label: string, data: number) {
+  append(label: string, bar: number, line: Array<number>) {
     this.labels.push(label)
-    this.data.push(data)
+    this.bar.push(bar)
+    for(let i=0;i<this.line.length;i++) {
+      this.line[i].data.push(line[i])
+    }
     this.chart.update()
   }
 }
